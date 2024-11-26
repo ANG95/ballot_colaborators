@@ -7,14 +7,16 @@ const Administrator = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch(logout()); // Disparar la acción de logout
+    dispatch(logout());
+    window.location.href = `/`
+
   };
 
   return (
     <div className="flex justify-center items-center h-full">
       <div>
-        <h1 className="text-2xl mb-4">Dashboard</h1>
-        <button onClick={handleLogout} className="p-2 bg-red-500 text-white">
+        <h1 className="text-2xl mb-4">Dashboard todo el contenido</h1>
+        <button onClick={()=>handleLogout()} className="p-2 bg-red-500 text-white">
           Logout
         </button>
       </div>

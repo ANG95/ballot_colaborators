@@ -2,12 +2,16 @@
 
 import { useDispatch } from "react-redux";
 import { logout } from "@/redux/slices/authSlice";
+import { useRouter } from 'next/navigation';
 
 const Collaborator = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(logout());
+    router.push(`/`);
+    window.location.href = `/`
   };
 
   return (

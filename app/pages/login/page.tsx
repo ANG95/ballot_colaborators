@@ -2,16 +2,18 @@
 
 import { useDispatch } from "react-redux";
 import { login } from "@/redux/slices/authSlice";
-import { useRouter } from 'next/navigation';
 import Image from "next/image";
 
 const Login = () => {
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const handleLogin = () => {
-    dispatch(login());
-    router.push(`/pages/administrator`);
+    console.log("ejecutando login");
+    const token = "mi_token_generado";
+    dispatch(login(token));
+    setTimeout(() => {
+      window.location.href = "/pages/administrator";
+    }, 1000);
   };
 
   return (

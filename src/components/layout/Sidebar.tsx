@@ -16,12 +16,6 @@ const Sidebar = () => {
         <Link href="/pages/collaborator" className="text-lg hover:text-blue-400">
           Collaborator
         </Link>
-        <Link href="/profile" className="text-lg hover:text-blue-400">
-          Profile example
-        </Link>
-        <Link href="/messages" className="text-lg hover:text-blue-400">
-          Messages example
-        </Link>
       </nav>
     </div>
   );
