@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^2.3.0",
     "axios": "^1.7.7",
     "date-fn": "^0.0.2",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "formik": "^2.4.6",
     "google-one-tap": "^1.0.6",

@@ -1,9 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import DataTable from "@/components/common/dataTable/dataTable";
 import { useState, useEffect, useRef } from "react";
 import { useGetUsersRol } from "./hooks/useGetUsersRol";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { CollaboratorType } from "@/types/collaborator";
+import { currentDate } from "@/utils/function";
 
 const Administrator = () => {
   const { data } = useGetUsersRol();
@@ -43,7 +45,7 @@ const Administrator = () => {
 
   const handleUserDetails = (e) => {
     const dataCollaboratorParsed = JSON.parse(e.target.value)
-    console.log('ejecutando el click',dataCollaboratorParsed)
+    console.log('ejecutando el click', dataCollaboratorParsed)
 
     collaboratorSelector.current = dataCollaboratorParsed;
     // Lógica para crear o actualizar paciente
@@ -54,7 +56,8 @@ const Administrator = () => {
     setSearchTerm(value);
     setCurrentPage(1);
   };
-  const collaboratorSelected: CollaboratorType | any = collaboratorSelector.current
+  const collaboratorSelected: CollaboratorType | any = collaboratorSelector.current;
+
   return (
     <>
       <div className="flex flex-col h-full">
@@ -98,21 +101,40 @@ const Administrator = () => {
         />
       </div>
       <Modal isOpen={collaboratorDetailModal} toggle={() => setCollaboratorDetailModal(false)}>
-        <ModalHeader toggle={() => setCollaboratorDetailModal(false)}>Detalles del colaborador</ModalHeader>
+        <ModalHeader className="background-modal-header" toggle={() => setCollaboratorDetailModal(false)}>Detalles del colaborador</ModalHeader>
         <ModalBody>
-            <img src={collaboratorSelected.picture} alt={collaboratorSelected.picture} />
-            <hr />
+          <div className="text-center mb-4">
+            <img
+              className="detail-image mx-auto rounded-full"
+              src={collaboratorSelected.picture}
+              alt={collaboratorSelected.name}
+              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+            />
+            <h5 className="mt-2 font-semibold">{collaboratorSelected.name}</h5>
+          </div>
+          <hr />
+          <div className="mt-4 space-y-2">
             <div>
-              {collaboratorSelected.given_name}
+              <strong>Nombres: </strong> {collaboratorSelected.given_name}
             </div>
-            <hr />
+            <div>
+              <strong>Apellidos:</strong> {collaboratorSelected.family_name}
+            </div>
+            <div>
+              <strong>Correo: </strong> {collaboratorSelected.email}
+            </div>
+            <div>
+              <strong>Rol de usuario: </strong> {collaboratorSelected.rol_nombre}
+            </div>
+            <div>
+              <strong>Fecha de creacion: </strong> {currentDate(collaboratorSelected.updated_at)}
+            </div>
+          </div>
+
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={() => setCollaboratorDetailModal(false)}>
-            Do Something
-          </Button>{' '}
-          <Button color="secondary" onClick={() => setCollaboratorDetailModal(false)}>
-            Cancel
+          <Button color="danger" onClick={() => setCollaboratorDetailModal(false)}>
+            Cerrar
           </Button>
         </ModalFooter>
       </Modal>
