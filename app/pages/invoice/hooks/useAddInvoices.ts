@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import apiClient from "@/lib/axios";
 
 export const useAddInvoices = () => {
@@ -13,7 +12,7 @@ export const useAddInvoices = () => {
   
     const formData = new FormData();
     invoiceFiles.forEach((file) => {
-      formData.append('invoiceFile', file); // Pasar solo el archivo
+      formData.append('invoiceFile', file);
     });
     formData.append("userId", userId);
     formData.append("period", period);
@@ -24,8 +23,7 @@ export const useAddInvoices = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log('response ', response);
-      setData(response.data); // Guarda la respuesta si es necesario
+      setData(response.data); 
     } catch (error: any) {
       setError("Error al obtener colaboradores: " + error.message);
     } finally {

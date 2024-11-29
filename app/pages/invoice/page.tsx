@@ -60,12 +60,11 @@ const Invoices = () => {
   };
 
   const handleFilesChange = (files: File[]) => {
-    setSelectedFiles(files); // Actualizado para aceptar un arreglo de archivos
+    setSelectedFiles(files);
   };
 
   const handleSearchCollaborator = debounce(async (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    console.log('ejecutando', value);
     try {
       if (value !== "") {
         await handleCollaboratorSearch(value, false);
@@ -76,8 +75,8 @@ const Invoices = () => {
   }, 500);
 
   const handleSaveInvoice = async () => {
-    const userId = String(collaboratorSelected?.id); // Aseguramos que collaboratorSelected no sea undefined
-    const period = "2024-11"; // El periodo correspondiente
+    const userId = String(collaboratorSelected?.id);
+    const period = "2024-11";
     console.log('selectedFiles ', selectedFiles);
     await handleInvoiceInsert(selectedFiles, userId, period);
   };
