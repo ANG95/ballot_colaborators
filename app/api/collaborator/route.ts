@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { createUser, selectCollaborators, selectUserByEmail } from "./collaboratorsModel";
 import { GoogleUser } from "@/types/user";

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useGetUsersRol } from "./hooks/useGetUsersRol";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { CollaboratorType } from "@/types/collaborator";
+import Image from "next/image";
 
 const Administrator = () => {
   const { data } = useGetUsersRol();
@@ -100,7 +101,7 @@ const Administrator = () => {
       <Modal isOpen={collaboratorDetailModal} toggle={() => setCollaboratorDetailModal(false)}>
         <ModalHeader toggle={() => setCollaboratorDetailModal(false)}>Detalles del colaborador</ModalHeader>
         <ModalBody>
-            <img src={collaboratorSelected.picture} alt={collaboratorSelected.picture} />
+            <Image src={collaboratorSelected.picture} alt={collaboratorSelected.picture} />
             <hr />
             <div>
               {collaboratorSelected.given_name}

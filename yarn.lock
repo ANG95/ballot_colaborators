@@ -1306,10 +1306,10 @@ data-view-byte-offset@^1.0.0:
     es-errors "^1.3.0"
     is-data-view "^1.0.1"
 
-date-fn@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/date-fn/-/date-fn-0.0.2.tgz#26ef47168a12aefaea1d738069a2d42cc14cbb13"
-  integrity sha512-DBIKrlB2w9d6UPZwYn6qqSeKLwHt5uRf9Mj/PiGWHGQ5CxnvMCx2KteO5owfiknkYzMngrDwz5nX4CGxYlr0uA==
+date-fns@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-4.1.0.tgz#64b3d83fff5aa80438f5b1a633c2e83b8a1c2d14"
+  integrity sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==
 
 debug@4, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3, debug@^4.3.4, debug@^4.3.5:
   version "4.3.7"
