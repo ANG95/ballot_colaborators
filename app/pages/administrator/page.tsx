@@ -20,7 +20,6 @@ const Administrator = () => {
     <div className="flex justify-center items-center h-full">
       <div>
         <h1 className="text-2xl mb-4">Administrar Usuario</h1>
-        <h1 className="text-2xl mb-4">Collaborator</h1>
         <MembersTable tableRows={TABLE_ROWS} />
       </div>
     </div>

@@ -25,8 +25,7 @@ export async function POST(req: Request) {
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt_decode<GoogleUser>(token);  // Decodificando el token JWT
-    console.log('decodeeeeeeeeeed',decoded);
+    const decoded = jwt_decode<GoogleUser>(token);
     
     const { email, name, given_name, family_name, picture } = decoded;
 
@@ -41,11 +40,13 @@ export async function POST(req: Request) {
     }
 
     const success = await createUser(email, name, given_name, family_name, picture);
+    const reSearchUser: any = await selectUserByEmail(email);
 
     if (success) {
       return NextResponse.json({
         userIsRegister: false,
-        ...decoded
+        ...decoded,
+        ...reSearchUser[0],
       });
     }
 

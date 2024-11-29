@@ -10,6 +10,7 @@ import Login from "@/login/page";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function RootLayout({
   children,
