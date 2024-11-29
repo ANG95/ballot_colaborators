@@ -9,6 +9,7 @@ import Header from "@/components/layout/Header";
 import Login from "@/login/page";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export default function RootLayout({
   children,
@@ -19,26 +20,32 @@ export default function RootLayout({
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = window.localStorage.getItem("token");
-      console.log("token ", token);
+    const token = window.localStorage.getItem("token");
+
+    const rol_id = parseInt(window.localStorage.getItem("rol_id") || "0");
+
+    if (token) {
+      setIsAuthenticated(true);
+      console.log('roooooooooolll idddddd', rol_id);
       
-      if (token && token !== "") {
-        setIsAuthenticated(true);
+      // Redirigir según el rol_id
+      if (rol_id === 1) {
         router.push("/pages/administrator");
+      } else if (rol_id === 2) {
+        router.push("/pages/collaborator");
       } else {
-        router.push("/");
-      }
+        console.error("Rol no reconocido.");
+      }  // Redirige al login si no hay token
     }
   }, [router]);
 
   return (
     <html lang="en">
-      <body>
-        <Provider store={store}>
-          <FontLoader />
-          {
-            isAuthenticated ? (
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
+        <body>
+          <Provider store={store}>
+            <FontLoader />
+            {isAuthenticated ? (
               <div className="flex h-screen">
                 <Sidebar />
                 <div className="flex flex-col flex-1">
@@ -48,10 +55,10 @@ export default function RootLayout({
               </div>
             ) : (
               <Login />
-            )
-          }
-        </Provider>
-      </body>
+            )}
+          </Provider>
+        </body>
+      </GoogleOAuthProvider>
     </html>
   );
 }

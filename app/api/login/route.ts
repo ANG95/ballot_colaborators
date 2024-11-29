@@ -1,25 +1,57 @@
-import { NextResponse } from 'next/server';
-import { selectUser, selectUsers } from './loginModel';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from "next/server";
+import { createUser, selectUserByEmail, selectUsers } from "./loginModel";
+import { GoogleUser } from "@/types/user";
+import jwt_decode from "jwt-decode";
 
 export async function GET() {
-    try {
-        const result = await selectUsers();
-        return NextResponse.json(result);
-      } catch (error) {
-        console.error(error);
-        return NextResponse.json({ error: 'Error creating user' }, { status: 500 });
-      }
+  try {
+    const result = await selectUsers();
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Error creating user" }, { status: 500 });
+  }
 }
 
 export async function POST(req: Request) {
-  const data = await req.json();
-  const { email } = data;
+  
+  const authHeader = req.headers.get("Authorization");
+
+  if (!authHeader) {
+    return NextResponse.json({ error: "Token no proporcionado" }, { status: 400 });
+  }
+
+  const token = authHeader.split(" ")[1];
 
   try {
-    const result = await selectUser(email);
-    return NextResponse.json({ message: 'User created', result });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: 'Error creating user' }, { status: 500 });
+    const decoded = jwt_decode<GoogleUser>(token);  // Decodificando el token JWT
+    console.log('decodeeeeeeeeeed',decoded);
+    
+    const { email, name, given_name, family_name, picture } = decoded;
+
+    const existingUser = await selectUserByEmail(email);
+
+    if (Array.isArray(existingUser) && existingUser.length > 0) {
+      return NextResponse.json({
+        userIsRegister: true,
+        ...decoded,
+        ...existingUser[0]
+      });
+    }
+
+    const success = await createUser(email, name, given_name, family_name, picture);
+
+    if (success) {
+      return NextResponse.json({
+        userIsRegister: false,
+        ...decoded
+      });
+    }
+
+    throw new Error("Error al crear el usuario");
+  } catch (error: any) {
+    console.error(error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

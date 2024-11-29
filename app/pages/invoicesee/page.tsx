@@ -1,15 +1,16 @@
-
 "use client"; 
 
-const Collaborator = () => {
+
+const InvoceSee = () => {
+  
 
   return (
     <div className="flex justify-center items-center h-full">
       <div>
-        actualizar perfil de colaborador
+        <h1 className="text-2xl mb-4">contenido veeeerrr boletas</h1>
       </div>
     </div>
   );
 };
 
-export default Collaborator;
+export default InvoceSee;

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import apiClient from "@/lib/axios";
+// import apiClient from "@/lib/axios";
+import axios from "axios";
 import { useState, useEffect } from "react";
 
 export const useGetUsers = () => {
@@ -11,7 +12,7 @@ export const useGetUsers = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await apiClient.get('/api/login');
+      const response = await axios.get('/api/login');
       console.log(response);
       
       setData(response.data);
