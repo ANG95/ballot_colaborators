@@ -15,13 +15,13 @@ const Invoices = () => {
   const { searchResult, handleCollaboratorSearch } = useListCollaborators();
   const { insertInvoiceResult, insertInvoiceLoading, insertInvoiceError, handleInvoiceInsert } = useAddInvoices();
 
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // Cambiado a File[] para permitir múltiples archivos
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [collaboratorDetailModal, setCollaboratorDetailModal] = useState(false);
   const [numPages, setNumPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredData, setFilteredData] = useState(data || []); // Asegurado que no sea undefined o null
+  const [filteredData, setFilteredData] = useState(data || []);
   const [collaboratorSelected, setCollaboratorSelected] = useState<CollaboratorType | undefined>(undefined);
 
   useEffect(() => {
@@ -101,7 +101,7 @@ const Invoices = () => {
             <div>
               <Button
                 className="edit-button"
-                onClick={(e) => handleUserDetails(e)}
+                onClick={(e: any) => handleUserDetails(e)}
                 color="success"
                 size="sm"
               >
@@ -157,8 +157,9 @@ const Invoices = () => {
             size="sm"
             color="primary"
             onClick={() => handleSaveInvoice()}
+            disabled={!insertInvoiceLoading}
           >
-            Guardar Boleta
+            {insertInvoiceLoading ? 'Cargando' : 'Guardar Boleta'}
           </Button>
           <Button
             size="sm"
