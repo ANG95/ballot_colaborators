@@ -74,13 +74,15 @@
   display: flex;
   justify-content: flex-end;
   margin: 15px 5px;
+  background-color: white;
 }
 
 .pseudo-search {
-  display: inline-block;
+  display: flex;
   border: 1px solid #ccc;
   border-radius: 100px;
   padding: 10px 15px;
+  background-color: white;
 }
 
 .pseudo-search input {

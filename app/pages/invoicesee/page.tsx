@@ -14,7 +14,7 @@ const InvoceSee = () => {
   const [filteredData, setFilteredData] = useState(data); 
 
   const patientSelected = useRef({});
-
+  console.log(createUpdatePatientModal , patientSelected)
   useEffect(() => {
     if (data && filteredData) {
       setNumPages(Math.ceil(filteredData.length / rowsPerPage));
@@ -38,7 +38,9 @@ const InvoceSee = () => {
     console.log('Page requested:', page);
   };
 
-  const updateCreatePatient = () => {
+  const updateCreatePatient = (e) => {
+    console.log('Page requested:', e);
+
     // Lógica para crear o actualizar paciente
   };
 
@@ -64,7 +66,7 @@ const InvoceSee = () => {
         rightComponents={
           <button
             className="edit-button"
-            onClick={(e) => updateCreatePatient()}
+            onClick={(e) => updateCreatePatient(e)}
           >
             ℹ️
           </button>

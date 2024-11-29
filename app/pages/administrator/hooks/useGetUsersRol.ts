@@ -8,7 +8,7 @@ export const useGetUsersRol = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("/api/users"); // Ajusta el endpoint según tu configuración
+        const response = await axios.get("/api/collaborator");
         setData(response.data);
       } catch (error) {
         console.error("Error al obtener usuarios:", error);

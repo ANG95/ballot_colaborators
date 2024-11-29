@@ -52,15 +52,15 @@ const Login = () => {
           // }, 1000);
           // Asegúrate de que el rol_id esté presente
           if (res.data.rol_id) {
-            console.log("Rol ID recibidoooooooooo:", res.data.rol_id);  // Verifica el valor del rol_id
+            console.log("Rol ID recibidoooooooooo:", res.data);  // Verifica el valor del rol_id
 
             window.localStorage.setItem("rol_id", res.data.rol_id.toString()); // Guardamos el rol_id en localStorage
 
             // Verificar el rol antes de redirigir
-            if (res.data.rol_id === 1) {
-              window.location.href = "/administrator";
-            } else if (res.data.rol_id === 2) {
-              window.location.href = "/collaborator";
+            if (res.data.rol_nombre === 'administrador') {
+              window.location.href = "/pages/administrator";
+            } else if (res.data.rol_nombre === 'colaborador') {
+              window.location.href = "/pages/collaborator";
             } else {
               console.error("Error: Rol no válido");
             }

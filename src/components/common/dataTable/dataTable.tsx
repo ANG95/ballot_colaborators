@@ -1,20 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { ReactNode } from 'react'
 import Pagination from '../pagination/pagination';
 import { Card } from 'reactstrap';
 import { MdAdd } from 'react-icons/md';
 import InputSearch from '../input/inputSearch';
 import RenderTbody from './renderTboby';
+import './dataTable.css'
 
 interface DataTableProps {
-    handleSearch: () => void,
+    handleSearch: (e: string | any) => void,
     addNewPress: () => void,
     columns: any[],
     rows: any[],
     totalPages: number,
     currentPage: number,
     onChangePage: (n: number) => void,
-    rightComponents: ChildNode | any
+    rightComponents: ReactNode | any
 }
 
 function DataTable({ handleSearch, addNewPress, columns,
@@ -43,7 +44,7 @@ function DataTable({ handleSearch, addNewPress, columns,
                             </tr>
                         </thead>
                         <tbody>
-                            {RenderTbody(rows, columns, rightComponents)}
+                            {RenderTbody({ rows, columns, rightComponents })}
                         </tbody>
                     </table>
                     <Pagination

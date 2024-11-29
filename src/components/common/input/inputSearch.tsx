@@ -2,8 +2,8 @@ import React from 'react';
 import { MdSearch, } from "react-icons/md";
 
 interface InputSearchProps {
-    onChangeInput: () => void
-    onBlur?: () => void
+    onChangeInput: (e: any) => void
+    onBlur?: (e: any) => void
 }
 
 const InputSearch = ({ onChangeInput, onBlur }: InputSearchProps) => (

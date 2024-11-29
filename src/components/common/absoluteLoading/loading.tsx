@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import './loading.css';
 
 function AbsoluteLoading() {
@@ -13,7 +12,3 @@ function AbsoluteLoading() {
 }
 
 export default AbsoluteLoading;
-
-AbsoluteLoading.propTypes = {
-  // onChange: PropTypes.func.isRequired,
-};
