@@ -21,7 +21,7 @@ interface DataTableProps {
 function DataTable({ handleSearch, addNewPress, columns,
     rows, totalPages, currentPage, onChangePage, rightComponents }: DataTableProps) {
     return (
-        <div className="px-3">
+        <div className="">
             <div className='d-flex justify-content-end align-items-center'>
                 <InputSearch
                     onChangeInput={handleSearch}

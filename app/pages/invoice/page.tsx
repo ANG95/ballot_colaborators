@@ -93,7 +93,7 @@ const Invoices = () => {
     <>
       <div className="flex flex-col h-full">
         <div>
-          <h1 className="text-2xl mb-4">Lista general de boletas</h1>
+          <h1 className="text-2xl">Lista general de boletas</h1>
         </div>
         <DataTable
           handleSearch={({ target: { value } }: any) => handleSearchInTable(value)}
