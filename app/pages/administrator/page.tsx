@@ -1,11 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import DataTable from "@/components/common/dataTable/dataTable";
 import { useState, useEffect, useRef } from "react";
 import { useGetUsersRol } from "./hooks/useGetUsersRol";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { CollaboratorType } from "@/types/collaborator";
-import { currentDate } from "@/utils/function";
+import { currentDate } from "@/utils/functions";
 
 const Administrator = () => {
   const { data } = useGetUsersRol();

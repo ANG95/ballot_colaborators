@@ -1,5 +1,6 @@
 import { useState } from "react";
 import apiClient from "@/lib/axios";
+import { toast } from "react-toastify";
 
 export const useAddInvoices = () => {
   const [data, setData] = useState([]);
@@ -24,8 +25,10 @@ export const useAddInvoices = () => {
         },
       });
       setData(response.data); 
+      toast.success("¡Datos guardados correctamente!")
     } catch (error: any) {
       setError("Error al obtener colaboradores: " + error.message);
+      toast.error("¡Ups!, ocurrió un error al guardar los datos, por favor intente nuevamente")
     } finally {
       setLoading(false);
     }

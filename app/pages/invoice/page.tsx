@@ -2,18 +2,18 @@
 import DataTable from "@/components/common/dataTable/dataTable";
 import { useState, useEffect, ChangeEvent } from "react";
 import { useListInvoices } from "./hooks/useListInvoices";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
 import InputMultipleFiles from "@/components/common/inputMultipleFiles/inputMultipleFiles";
 import InputSearch from "@/components/common/input/inputSearch";
 import { useListCollaborators } from "./hooks/useSearchCollaborator";
-import { debounce } from "@/utils/functions";
+import { currentDate, debounce } from "@/utils/functions";
 import { CollaboratorType } from "@/types/collaborator";
 import { useAddInvoices } from "./hooks/useAddInvoices";
 
 const Invoices = () => {
   const { data } = useListInvoices();
   const { searchResult, handleCollaboratorSearch } = useListCollaborators();
-  const { insertInvoiceResult, insertInvoiceLoading, insertInvoiceError, handleInvoiceInsert } = useAddInvoices();
+  const { insertInvoiceLoading, handleInvoiceInsert } = useAddInvoices();
 
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [collaboratorDetailModal, setCollaboratorDetailModal] = useState(false);
@@ -23,6 +23,7 @@ const Invoices = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState(data || []);
   const [collaboratorSelected, setCollaboratorSelected] = useState<CollaboratorType | undefined>(undefined);
+  const [periodInput, setPeriodInput] = useState(currentDate())
 
   useEffect(() => {
     if (data && filteredData) {
@@ -60,7 +61,7 @@ const Invoices = () => {
   };
 
   const handleFilesChange = (files: File[]) => {
-    setSelectedFiles(files);
+    setSelectedFiles((prev) => [...prev, ...files]);
   };
 
   const handleSearchCollaborator = debounce(async (event: ChangeEvent<HTMLInputElement>) => {
@@ -76,11 +77,13 @@ const Invoices = () => {
 
   const handleSaveInvoice = async () => {
     const userId = String(collaboratorSelected?.id);
-    const period = "2024-11";
-    console.log('selectedFiles ', selectedFiles);
-    await handleInvoiceInsert(selectedFiles, userId, period);
+    await handleInvoiceInsert(selectedFiles, userId, periodInput);
   };
 
+  const handleRemoveFile = (fileName) => {
+    const fileDeleted = selectedFiles.filter((file) => file.name !== fileName)
+    setSelectedFiles(fileDeleted)
+  }
   return (
     <>
       <div className="flex flex-col h-full">
@@ -134,14 +137,15 @@ const Invoices = () => {
             collaboratorSelected && (
               <div className="flex flex-col">
                 <b>Colaborador seleccionado:</b>
-                <div className="flex">
-                  <b>nombre:</b>
+                <div className="flex mt-2">
+                  <b className="mr-2">Nombres: </b>
                   <span>
                     {collaboratorSelected?.name}
+                    {collaboratorSelected?.family_name}
                   </span>
                 </div>
                 <div className="flex">
-                  <b>Email:</b>
+                  <b className="mr-2">Email: </b>
                   <span>
                     {collaboratorSelected?.email}
                   </span>
@@ -149,8 +153,16 @@ const Invoices = () => {
               </div>
             )
           }
+          <hr />
+          <label className="mr-2" id="period"><b>Seleccione un periodo:</b></label>
+          <Input bsSize="sm" type="date" name="period" id="period" onChange={({ target: { value } })=> setPeriodInput(value)} value={periodInput} />
+          <hr />
 
-          <InputMultipleFiles onFilesChange={handleFilesChange} />
+          <InputMultipleFiles
+            onFilesChange={handleFilesChange}
+            pdfFiles={selectedFiles}
+            handleRemoveFile={(name: string) => handleRemoveFile(name)}
+          />
         </ModalBody>
         <ModalFooter>
           <Button

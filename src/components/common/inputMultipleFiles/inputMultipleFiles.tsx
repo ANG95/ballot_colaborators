@@ -9,11 +9,12 @@ interface PDFFile {
 }
 
 interface InputMultipleFilesProps {
-  onFilesChange: (files: File[]) => void; // Cambié para pasar solo los archivos
+  onFilesChange: (files: File[]) => void;
+  pdfFiles: File[]
+  handleRemoveFile:(name: string)=>void
 }
 
-const InputMultipleFiles: React.FC<InputMultipleFilesProps> = ({ onFilesChange }) => {
-  const [pdfFiles, setPdfFiles] = useState<PDFFile[]>([]);
+const InputMultipleFiles: React.FC<InputMultipleFilesProps> = ({ onFilesChange, pdfFiles, handleRemoveFile }) => {
   const [nextId, setNextId] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -52,19 +53,9 @@ const InputMultipleFiles: React.FC<InputMultipleFilesProps> = ({ onFilesChange }
       }));
 
     setNextId((prevId) => prevId + newFiles.length);
-    setPdfFiles((prevFiles) => {
-      const updatedFiles = [...prevFiles, ...newFiles];
-      onFilesChange(updatedFiles.map((file) => file.file)); // Solo pasar los archivos, no los objetos
+      const updatedFiles = [...newFiles];
+      onFilesChange(updatedFiles.map((file) => file.file));
       return updatedFiles;
-    });
-  };
-
-  const handleRemoveFile = (id: number) => {
-    setPdfFiles((prevFiles) => {
-      const updatedFiles = prevFiles.filter((file) => file.id !== id);
-      onFilesChange(updatedFiles.map((file) => file.file)); // Actualizar el padre con solo los archivos
-      return updatedFiles;
-    });
   };
 
   return (
@@ -75,7 +66,7 @@ const InputMultipleFiles: React.FC<InputMultipleFilesProps> = ({ onFilesChange }
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
       >
-        <p>Arrastra y suelta tus boletas</p>
+        <p>Arrastra y suelta tus boletas aquí</p>
         <input
           type="file"
           id="pdfUploader"
@@ -92,11 +83,11 @@ const InputMultipleFiles: React.FC<InputMultipleFilesProps> = ({ onFilesChange }
         <b>Boletas seleccionadas:</b>
         <ul>
           {pdfFiles.map((file) => (
-            <li key={file.id}>
+            <li key={file.name}>
               {file.name}
               <button
                 className="remove-btn"
-                onClick={() => handleRemoveFile(file.id)}
+                onClick={() => handleRemoveFile(file.name)}
               >
                 <MdDelete />
               </button>
