@@ -60,7 +60,7 @@ const Login = () => {
             if (res.data.rol_nombre === 'administrador') {
               window.location.href = "/pages/administrator";
             } else if (res.data.rol_nombre === 'colaborador') {
-              window.location.href = "/pages/collaborator";
+              window.location.href = "/pages/profile";
             } else {
               console.error("Error: Rol no válido");
             }
