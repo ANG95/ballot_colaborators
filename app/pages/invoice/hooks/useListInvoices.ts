@@ -1,25 +1,33 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import apiClient from "@/lib/axios";
+import { removePrefix } from "@/utils/functions";
 
 export const useListInvoices = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await apiClient.get("/api/collaborator");
-        setData(response.data);
-      } catch (error) {
-        console.error("Error al obtener usuarios:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchInvoices = async () => {
+    try {
+      const response = await apiClient.get("/api/invoice");
 
-    fetchUsers();
+      const newInvoices = response.data.map((invoice) => {
+        const newInvoiceFormat = removePrefix(invoice.archivo_boleta)
+        return {
+          ...invoice,
+          fileNameSplit: newInvoiceFormat
+        }
+      })
+      setData(newInvoices);
+    } catch (error) {
+      console.error("Error al obtener usuarios:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    fetchInvoices();
   }, []);
 
-  return { data, loading };
+  return { data, loading, fetchInvoices };
 };

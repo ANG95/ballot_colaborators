@@ -1,13 +1,27 @@
 import { NextResponse } from "next/server";
 import path from "path";
 import fs from "fs";
-import { addInvoice } from "./invoiceModel";
+import { addInvoice, listInvoices } from "./invoiceModel";
 import { currentDate } from "@/utils/functions";
+
+
+export async function GET(req: Request) {
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader) {
+    return NextResponse.json({ error: "Token no proporcionado" }, { status: 400 });
+  }
+  try {
+    const invoices: any = await listInvoices();
+    return NextResponse.json(invoices, { status: 200 });
+  } catch (error: any) {
+    return NextResponse.json({ error: "Error en el servidor"+ error }, { status: 500 });
+  }
+}
 
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();
-    const invoiceFiles = formData.getAll("invoiceFile");
+    const invoiceFiles: any[] = formData.getAll("invoiceFile");
     const userId = formData.get("userId");
     const period = formData.get("period");
 

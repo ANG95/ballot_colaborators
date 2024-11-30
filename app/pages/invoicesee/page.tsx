@@ -52,7 +52,7 @@ const InvoceSee = () => {
   return (
     <div className="flex flex-col h-full">
       <div>
-        <h1 className="text-2xl mb-4">Ver mis boletas</h1>
+        <h1 className="text-2xl">Ver mis boletas</h1>
       </div>
       <DataTable
         handleSearch={({ target: { value } }) => handleSearchInTable(value)}

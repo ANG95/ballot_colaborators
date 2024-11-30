@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { query } from "@/lib/db";
 import { ResultSetHeader } from "mysql2";
 
@@ -24,7 +23,6 @@ export const selectCollaborators = async () => {
       WHERE
           rol_nombre = "colaborador"`);
     return result;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error('Error creating user', error);
   }
