@@ -23,7 +23,7 @@ const Invoices = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState(data || []);
   const [collaboratorSelected, setCollaboratorSelected] = useState<CollaboratorType | undefined>(undefined);
-  const [periodInput, setPeriodInput] = useState(currentDate())
+  const [periodInput, setPeriodInput] = useState(currentDate("yyyy-MM-dd"))
 
   useEffect(() => {
     if (data && filteredData) {
@@ -78,12 +78,17 @@ const Invoices = () => {
   const handleSaveInvoice = async () => {
     const userId = String(collaboratorSelected?.id);
     await handleInvoiceInsert(selectedFiles, userId, periodInput);
+    setCollaboratorDetailModal(false)
+    setSelectedFiles([])
+    setPeriodInput(currentDate("yyyy-MM-dd"))
+    setCollaboratorSelected(undefined)
   };
 
   const handleRemoveFile = (fileName) => {
     const fileDeleted = selectedFiles.filter((file) => file.name !== fileName)
     setSelectedFiles(fileDeleted)
   }
+
   return (
     <>
       <div className="flex flex-col h-full">
@@ -155,7 +160,13 @@ const Invoices = () => {
           }
           <hr />
           <label className="mr-2" id="period"><b>Seleccione un periodo:</b></label>
-          <Input bsSize="sm" type="date" name="period" id="period" onChange={({ target: { value } })=> setPeriodInput(value)} value={periodInput} />
+          <Input
+            bsSize="sm"
+            type="date"
+            name="period"
+            id="period"
+            onChange={({ target: { value } }) => setPeriodInput(value)}
+            value={periodInput} />
           <hr />
 
           <InputMultipleFiles
@@ -169,7 +180,11 @@ const Invoices = () => {
             size="sm"
             color="primary"
             onClick={() => handleSaveInvoice()}
-            disabled={!insertInvoiceLoading}
+            disabled={
+              insertInvoiceLoading ||
+              !collaboratorSelected?.email ||
+              !(selectedFiles.length > 0)
+            }
           >
             {insertInvoiceLoading ? 'Cargando' : 'Guardar Boleta'}
           </Button>
