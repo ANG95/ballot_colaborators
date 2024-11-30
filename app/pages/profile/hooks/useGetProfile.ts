@@ -1,5 +1,6 @@
 import apiClient from "@/lib/axios";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 export const useGetProfile = () => {
   const [data, setData] = useState<any>(null);
@@ -36,10 +37,12 @@ export const useUpdateProfile = () => {
     try {
       setLoading(true);
       const response = await apiClient.put(`/api/profile`, {given_name, family_name});
+      toast.success("¡Datos actualizados correctamente!")
       return response.data;
     } catch (err) {
       setError(err);
       console.error("Error al actualizar el perfil:", err);
+      toast.error("¡Ups!, ocurrió un error al actualizar los datos, por favor intente nuevamente")
     } finally {
       setLoading(false);
     }

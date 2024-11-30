@@ -42,6 +42,8 @@ export async function PUT(req: Request) {
 
     const token = authHeader.split(" ")[1];
     const decoded: any = jwt_decode(token);
+    console.log('decodeeeeeeed', decoded);
+    
 
     const { given_name, family_name } = body;
 
@@ -53,6 +55,8 @@ export async function PUT(req: Request) {
     }
 
     const existingUser = await selectUserByEmail(decoded.email);
+    console.log('exxxxiiiiiiiiiiisss',existingUser);
+    
     const result = await updateProfile(existingUser[0].id, given_name, family_name);
 
     return NextResponse.json({ success: true, result });

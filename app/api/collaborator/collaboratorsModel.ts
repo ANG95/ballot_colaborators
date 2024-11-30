@@ -31,8 +31,24 @@ export const selectCollaborators = async () => {
 };
 export const selectUserByEmail = async (email: string) => {
   try {
-    const result = await query(`SELECT * FROM users INNER JOIN roles ON users.rol_id = roles.id WHERE email = ?`, [email]);
-    console.log('aaaaaaaaaaaaaaaaaaa',result);
+    const result = await query(`SELECT 
+    users.id,
+    email,
+    name,
+    given_name,
+    family_name,
+    picture,
+    created_at,
+    updated_at,
+    rol_id,
+    rol_nombre,
+    descripcion
+FROM
+    users
+        INNER JOIN
+    roles ON users.rol_id = roles.id
+WHERE
+    email = ?`, [email]);
     return result;
     
   } catch (error: any) {

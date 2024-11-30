@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from "reactstrap";
 import { useGetProfile, useUpdateProfile } from "./hooks/useGetProfile";
+import { formatDate } from "@/utils/functions";
 
 const ProfilePage = () => {
   const { data } = useGetProfile();
@@ -44,8 +45,8 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-full">
-      <div>
+    <div className="flex justify-center  h-full">
+      <div className="mt-4 space-y-2">
         <div className="text-center mb-4">
           {collaboratorSelected?.picture ? (
             <img
@@ -57,9 +58,7 @@ const ProfilePage = () => {
           ) : (
             <div className="w-24 h-24 rounded-full bg-gray-300" />
           )}
-          <h5 className="mt-2 font-semibold">{collaboratorSelected.name}</h5>
         </div>
-        <hr />
         <div className="mt-4 space-y-2">
           <div>
             <strong>Nombres: </strong> {collaboratorSelected.given_name}
@@ -70,33 +69,55 @@ const ProfilePage = () => {
           <div>
             <strong>Correo: </strong> {collaboratorSelected.email}
           </div>
+          <div>
+            <strong>Fecha de creación: </strong> {formatDate(updatedData.updated_at)}
+          </div>
+          <div>
+            <strong>Correo: </strong> {collaboratorSelected.email}
+          </div>
+          <div>
+            <strong>Rol de usuario: </strong> {collaboratorSelected.rol_nombre}
+          </div>
         </div>
 
+        <div className="flex justify-center">
         <Button color="primary" onClick={() => setCollaboratorDetailModal(true)}>
           Actualizar
         </Button>
+        </div>
       </div>
 
       <Modal isOpen={collaboratorDetailModal} toggle={() => setCollaboratorDetailModal(false)}>
         <ModalHeader toggle={() => setCollaboratorDetailModal(false)}>Actualizar Perfil</ModalHeader>
         <ModalBody>
-          <div>
-            <strong>Nombres: </strong>
-            <Input
-              type="text"
-              name="given_name"
-              value={updatedData?.given_name || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <strong>Apellidos: </strong>
-            <Input
-              type="text"
-              name="family_name"
-              value={updatedData?.family_name || ""}
-              onChange={handleInputChange}
-            />
+          <div className="mt-4 space-y-2">
+            <div>
+              <strong>Nombres: </strong>
+              <Input
+                type="text"
+                name="given_name"
+                value={updatedData?.given_name || ""}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <strong>Apellidos: </strong>
+              <Input
+                type="text"
+                name="family_name"
+                value={updatedData?.family_name || ""}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <strong>Correo: </strong> {collaboratorSelected.email}
+            </div>
+            <div>
+              <strong>Rol de usuario: </strong> {collaboratorSelected.rol_nombre}
+            </div>
+            <div>
+              <strong>Fecha de creación: </strong> {formatDate(updatedData.updated_at)}
+            </div>
           </div>
         </ModalBody>
         <ModalFooter>

@@ -40,7 +40,7 @@ export const updateProfile = async (
     const result = await query(
       `
       UPDATE users 
-      SET given_name = ?, family_name = ?, updated_at = NOW()
+      SET given_name = ?, family_name = ?
       WHERE id = ?`,
       [given_name, family_name, id]
     );

@@ -5,11 +5,10 @@ export const currentDate = (dateFormat = 'dd-MM-yyyy') => {
   return format(currentDate, dateFormat)
 }
 
-export const formatDate = (dateFormat = 'dd-MM-yyyy') => {
-  const currentDate = new Date();
-  return format(currentDate, dateFormat)
-}
-
+export const formatDate = (date?: string | Date, dateFormat = 'dd-MM-yyyy') => {
+  const parsedDate = date ? new Date(date) : new Date();
+  return format(parsedDate, dateFormat);
+};
 
 
 export function debounce(func: Function, wait: number, immediate: boolean=false) {

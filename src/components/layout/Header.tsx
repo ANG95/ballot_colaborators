@@ -25,7 +25,7 @@ const Header = () => {
           onClick={handleLogout}
           className="p-2 bg-red-500 text-white rounded"
         >
-          Logout
+          Cerrar sesión
         </button>
       </div>
     </header>
