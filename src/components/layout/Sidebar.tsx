@@ -23,7 +23,7 @@ const Sidebar = () => {
 
         ) : rol_id === 2 ? (
           <>
-            <Link href="/pages/collaborator" className="text-lg hover:text-blue-400">
+            <Link href="/pages/profile" className="text-lg hover:text-blue-400">
               Mi perfil
             </Link>
             <Link href="/pages/invoicesee" className="text-lg hover:text-blue-400">

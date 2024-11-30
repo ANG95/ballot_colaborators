@@ -35,7 +35,7 @@ export default function RootLayout({
       if (rol_id === 1) {
         router.push("/pages/administrator");
       } else if (rol_id === 2) {
-        router.push("/pages/collaborator");
+        router.push("/pages/profile");
       } else {
         console.error("Rol no reconocido.");
       }  // Redirige al login si no hay token
