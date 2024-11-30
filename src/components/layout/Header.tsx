@@ -9,8 +9,8 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    window.localStorage.removeItem("token"); // Limpia el token
-    window.localStorage.removeItem("userData"); // Limpia los datos del usuario
+    window.localStorage.removeItem("token"); 
+    window.localStorage.removeItem("userData");
     window.location.href = `/`;
   };
 
