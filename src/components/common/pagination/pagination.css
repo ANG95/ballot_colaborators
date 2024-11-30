@@ -107,9 +107,9 @@
   border: 1px solid #ccc;
   border-radius: 100px;
   padding: 10px 15px;
-  background: linear-gradient( to right, #ffd400, #ff8d00);
+  background: linear-gradient( to right, rgb(31 41 55), #719fdb);
   cursor: pointer;
 }
 .new-button:hover {
-  background: linear-gradient( to right, #ff8d00, #ffd400);
+  background: linear-gradient( to right, #71a6f1, #1f2937);
 }

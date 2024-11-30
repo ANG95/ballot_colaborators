@@ -19,3 +19,35 @@ export const addInvoice = async ({ userId, period, filepath, uploadDate }: addIn
     throw new Error('Error creating invoice', error);
   }
 };
+
+
+export const listInvoices = async () => {
+  try {
+    const querySQL = `
+      SELECT 
+          boletas.id,
+          usuario_id,
+          periodo,
+          archivo_boleta,
+          fecha_carga,
+          email,
+          name,
+          given_name,
+          family_name,
+          picture,
+          created_at,
+          updated_at,
+          rol_nombre
+      FROM
+          boletas
+              LEFT JOIN
+          users ON boletas.usuario_id = users.id
+              LEFT JOIN
+          roles ON roles.id = users.rol_id ORDER BY id DESC`;
+    const result = await query(querySQL);
+    return result;
+  } catch (error: any) {
+    console.log('err0r', error)
+    throw new Error('Error creating invoice', error);
+  }
+};

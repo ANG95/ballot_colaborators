@@ -10,21 +10,23 @@ export const formatDate = (date?: string | Date, dateFormat = 'dd-MM-yyyy') => {
   return format(parsedDate, dateFormat);
 };
 
-
-export function debounce(func: Function, wait: number, immediate: boolean=false) {
+export function debounce(func: (this: any, ...args: any[]) => void, wait: number, immediate: boolean = false) {
   let timeout: NodeJS.Timeout;
-  return function () {
-    const context = this;
-    const args = arguments;
+  return function (...args: any[]) { 
     const callNow = immediate && !timeout;
     clearTimeout(timeout);
-    timeout = setTimeout(function () {
+    timeout = setTimeout(() => {
       timeout = null;
 
       if (!immediate) {
-        func.apply(context, args);
+        func.apply(this, args);  
       }
     }, wait);
-    if (callNow) func.apply(context, args);
+    if (callNow) func.apply(this, args); 
   };
-}
+};
+
+
+export function removePrefix(filename: string): string {
+  return filename.replace(/^([^\-]*-){4}/, '');
+};
