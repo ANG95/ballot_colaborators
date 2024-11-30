@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 export default function RootLayout({
   children,
@@ -44,6 +46,7 @@ export default function RootLayout({
     <html lang="en">
       <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
         <body>
+        <ToastContainer />
           <Provider store={store}>
             <FontLoader />
             {isAuthenticated ? (
