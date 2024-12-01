@@ -11,7 +11,7 @@ import { formatDate } from "@/utils/functions";
 // import dayjs from "dayjs";
 
 const Administrator = () => {
-  const { data } = useGetUsersRol();
+  const { data, fetchCollaborator } = useGetUsersRol();
 
   const [collaboratorDetailModal, setCollaboratorDetailModal] = useState(false);
   const [numPages, setNumPages] = useState(0);
@@ -97,6 +97,7 @@ const Administrator = () => {
       if (response?.success) {
         setCollaboratorSelected(updatedData);
         setCollaboratorModalUpdate(false);
+        await fetchCollaborator();
       } else {
         console.error("Error en la actualización");
       }
