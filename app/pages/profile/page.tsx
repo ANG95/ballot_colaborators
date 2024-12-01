@@ -5,6 +5,12 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from "react
 import { useGetProfile, useUpdateProfile } from "./hooks/useGetProfile";
 import { formatDate } from "@/utils/functions";
 
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import React from "react";
+import dayjs from "dayjs";
+
 const ProfilePage = () => {
   const { data } = useGetProfile();
   const { updateProfile } = useUpdateProfile();
@@ -21,18 +27,30 @@ const ProfilePage = () => {
 
   if (!collaboratorSelected) return <div>Cargando...</div>;
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: { target: { name: string; value: any } }) => {
     const { name, value } = e.target;
     setUpdatedData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleUpdateProfile = async () => {
+    console.log(' sssssssssssssssss',collaboratorSelected);
+    
     try {
       const response = await updateProfile({
         given_name: updatedData?.given_name || "",
         family_name: updatedData?.family_name || "",
+        birthdate: updatedData?.birthdate || "",
+        rol: collaboratorSelected.rol_id,
+        email: collaboratorSelected.email
+        
       });
-
+  
+      console.log("Datos enviados:", {
+        given_name: updatedData?.given_name || "",
+        family_name: updatedData?.family_name || "",
+        birthdate: updatedData?.birthdate || "",
+      });
+  
       if (response?.success) {
         setCollaboratorSelected(updatedData);
         setCollaboratorDetailModal(false);
@@ -67,6 +85,9 @@ const ProfilePage = () => {
             <strong>Apellidos: </strong> {collaboratorSelected.family_name}
           </div>
           <div>
+            <strong>Cumpleaños: </strong> {formatDate(updatedData.birthdate)}
+          </div>
+          <div>
             <strong>Correo: </strong> {collaboratorSelected.email}
           </div>
           <div>
@@ -81,9 +102,9 @@ const ProfilePage = () => {
         </div>
 
         <div className="flex justify-center">
-        <Button color="primary" onClick={() => setCollaboratorDetailModal(true)}>
-          Actualizar
-        </Button>
+          <Button color="primary" onClick={() => setCollaboratorDetailModal(true)}>
+            Actualizar
+          </Button>
         </div>
       </div>
 
@@ -109,6 +130,19 @@ const ProfilePage = () => {
                 onChange={handleInputChange}
               />
             </div>
+            <div>
+              <strong>Cumpleaños: </strong>
+            </div>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                views={['day', 'month', 'year']}
+                value={updatedData?.birthdate ? dayjs(updatedData?.birthdate) : null}
+                onChange={(newValue) => {
+                  // Actualizar el estado directamente para la fecha
+                  setUpdatedData((prev) => ({ ...prev, birthdate: newValue?.toISOString() || "" }));
+                }}
+              />
+            </LocalizationProvider>
             <div>
               <strong>Correo: </strong> {collaboratorSelected.email}
             </div>

@@ -27,6 +27,7 @@ export const selectUserByEmail = async (email: string) => {
     updated_at,
     rol_id,
     rol_nombre,
+    birthdate,
     descripcion
 FROM
     users

@@ -45,19 +45,19 @@ export async function PUT(req: Request) {
     console.log('decodeeeeeeed', decoded);
     
 
-    const { given_name, family_name } = body;
+    const { given_name, family_name, birthdate, rol, email} = body;
 
-    if (!given_name || !family_name) {
+    if (!given_name || !family_name || !birthdate) {
       return NextResponse.json(
         { error: "Datos incompletos" },
         { status: 400 }
       );
     }
 
-    const existingUser = await selectUserByEmail(decoded.email);
+    const existingUser = await selectUserByEmail(email);
     console.log('exxxxiiiiiiiiiiisss',existingUser);
     
-    const result = await updateProfile(existingUser[0].id, given_name, family_name);
+    const result = await updateProfile(existingUser[0].id, given_name, family_name, birthdate, rol);
 
     return NextResponse.json({ success: true, result });
   } catch (error) {

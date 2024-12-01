@@ -15,6 +15,7 @@ export const selectCollaborators = async () => {
           updated_at,
           rol_id,
           rol_nombre,
+          birthdate,
           descripcion
       FROM
           users
@@ -40,6 +41,7 @@ export const selectUserByEmail = async (email: string) => {
     updated_at,
     rol_id,
     rol_nombre,
+    birthdate,
     descripcion
 FROM
     users

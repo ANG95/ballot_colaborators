@@ -33,10 +33,10 @@ export const useUpdateProfile = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const updateProfile = async ({ given_name, family_name }) => {
+  const updateProfile = async ({ given_name, family_name, birthdate, rol, email}) => {
     try {
       setLoading(true);
-      const response = await apiClient.put(`/api/profile`, {given_name, family_name});
+      const response = await apiClient.put(`/api/profile`, {given_name, family_name, birthdate, rol, email});
       toast.success("¡Datos actualizados correctamente!")
       return response.data;
     } catch (err) {

@@ -4,6 +4,7 @@ export interface CollaboratorType {
   email: string;
   family_name: string;
   given_name: string;
+  birthdate: Date;
   id: number;
   name: string;
   picture: string | null;
