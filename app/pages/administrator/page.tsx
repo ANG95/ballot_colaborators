@@ -129,12 +129,13 @@ const Administrator = () => {
     <>
       <div className="flex flex-col h-full">
         <div>
-          <h1 className="text-2xl mb-4">Colaboradores</h1>
+          <h1 className="text-2xl">Colaboradores</h1>
         </div>
         <DataTable
           handleSearch={({ target: { value } }: any) => handleSearchInTable(value)}
           addNewPress={() => { }}
           columns={[
+            {name: 'N°'},
             { name: 'Foto', value: 'picture', type: 'img' },
             { name: 'NOMBRES', value: 'name', },
             { name: 'APELLIDOS', value: 'family_name' },

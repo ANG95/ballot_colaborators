@@ -2,12 +2,6 @@ import React, { useState } from 'react';
 import './styles.css';
 import { MdDelete } from 'react-icons/md';
 
-interface PDFFile {
-  id: number;
-  name: string;
-  file: File;
-}
-
 interface InputMultipleFilesProps {
   onFilesChange: (files: File[]) => void;
   pdfFiles: File[]

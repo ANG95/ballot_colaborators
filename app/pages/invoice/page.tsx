@@ -9,9 +9,11 @@ import { useListCollaborators } from "./hooks/useSearchCollaborator";
 import { currentDate, debounce } from "@/utils/functions";
 import { CollaboratorType } from "@/types/collaborator";
 import { useAddInvoices } from "./hooks/useAddInvoices";
+import { ImPrinter } from "react-icons/im";
+import { FaDownload } from "react-icons/fa";
 
 const Invoices = () => {
-  const { data } = useListInvoices();
+  const { data, loading, fetchInvoices } = useListInvoices();
   const { searchResult, handleCollaboratorSearch } = useListCollaborators();
   const { insertInvoiceLoading, handleInvoiceInsert } = useAddInvoices();
 
@@ -33,9 +35,9 @@ const Invoices = () => {
 
   useEffect(() => {
     if (data) {
-      const filtered = data.filter((user: any) =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.family_name.toLowerCase().includes(searchTerm.toLowerCase())
+      const filtered = data.filter((user) =>
+        user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user?.family_name?.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredData(filtered);
     }
@@ -47,6 +49,7 @@ const Invoices = () => {
 
   const handleUserDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
+      console.log('e.value', e.target)
       const dataCollaboratorParsed = JSON.parse(e.target.value);
       console.log('ejecutando el click', dataCollaboratorParsed);
       setCollaboratorDetailModal(true);
@@ -78,6 +81,7 @@ const Invoices = () => {
   const handleSaveInvoice = async () => {
     const userId = String(collaboratorSelected?.id);
     await handleInvoiceInsert(selectedFiles, userId, periodInput);
+    await fetchInvoices()
     setCollaboratorDetailModal(false)
     setSelectedFiles([])
     setPeriodInput(currentDate("yyyy-MM-dd"))
@@ -93,15 +97,18 @@ const Invoices = () => {
     <>
       <div className="flex flex-col h-full">
         <div>
-          <h1 className="text-2xl mb-4">Lista general de boletas</h1>
+          <h1 className="text-2xl">Lista general de boletas</h1>
         </div>
         <DataTable
           handleSearch={({ target: { value } }: any) => handleSearchInTable(value)}
           addNewPress={() => setCollaboratorDetailModal(true)}
           columns={[
-            { name: 'Foto', value: 'picture', type: 'img' },
+
+            { name: 'N°', value: '' },
+            { name: 'Archivo', value: 'fileNameSplit' },
             { name: 'NOMBRES', value: 'name' },
             { name: 'APELLIDOS', value: 'family_name' },
+            { name: 'ROL', value: 'rol_nombre' },
             { name: '', value: 'isChildren' },
           ]}
           rows={filteredData && filteredData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)}
@@ -110,17 +117,30 @@ const Invoices = () => {
               <Button
                 className="edit-button"
                 onClick={(e: any) => handleUserDetails(e)}
-                color="success"
+                color="danger"
                 size="sm"
               >
-                Detalles
+                <div className="pointer-events-none">
+                  <ImPrinter />
+                </div>
               </Button>
               <div className="ml-1" />
+              <Button
+                className="edit-button"
+                onClick={(e: any) => handleUserDetails(e)}
+                color="secondary"
+                size="sm"
+              >
+                <div className="pointer-events-none">
+                  <FaDownload />
+                </div>
+              </Button>
             </div>
           }
           totalPages={numPages}
           currentPage={currentPage}
           onChangePage={(page) => ReqDataAPI(page)}
+          loading={loading}
         />
       </div>
       <Modal isOpen={collaboratorDetailModal} toggle={() => setCollaboratorDetailModal(false)}>

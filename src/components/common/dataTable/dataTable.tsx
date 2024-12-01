@@ -16,12 +16,13 @@ interface DataTableProps {
     currentPage: number,
     onChangePage: (n: number) => void,
     rightComponents: ReactNode | any
+    loading?: boolean;
 }
 
 function DataTable({ handleSearch, addNewPress, columns,
-    rows, totalPages, currentPage, onChangePage, rightComponents }: DataTableProps) {
+    rows, totalPages, currentPage, onChangePage, rightComponents, loading }: DataTableProps) {
     return (
-        <div className="px-3">
+        <div className="">
             <div className='d-flex justify-content-end align-items-center'>
                 <InputSearch
                     onChangeInput={handleSearch}
@@ -44,7 +45,13 @@ function DataTable({ handleSearch, addNewPress, columns,
                             </tr>
                         </thead>
                         <tbody>
-                            {RenderTbody({ rows, columns, rightComponents })}
+                            {
+                                loading && loading ?
+                                    <tr>
+                                        <td className='text-center' colSpan={columns.length -1}>Cargando datos, por favor espere...</td>
+                                    </tr> :
+                                    RenderTbody({ rows, columns, rightComponents })
+                            }
                         </tbody>
                     </table>
                     <Pagination
