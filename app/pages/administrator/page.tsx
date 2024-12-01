@@ -1,10 +1,14 @@
 "use client";
 import DataTable from "@/components/common/dataTable/dataTable";
 import { useState, useEffect, useRef } from "react";
-import { useGetUsersRol } from "./hooks/useGetUsersRol";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { CollaboratorType } from "@/types/collaborator";
-import { currentDate } from "@/utils/functions";
+import { useGetUsersRol, useProfileUpdate } from "./hooks/useGetUsersRol";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap';
+// import { CollaboratorType } from "@/types/collaborator";
+import { formatDate } from "@/utils/functions";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+// import dayjs from "dayjs";
 
 const Administrator = () => {
   const { data } = useGetUsersRol();
@@ -17,7 +21,15 @@ const Administrator = () => {
   const [filteredData, setFilteredData] = useState(data);
   const collaboratorSelector = useRef({})
 
+  const [collaboratorModalUpdate, setCollaboratorModalUpdate] = useState(false);
+  const [updatedData, setUpdatedData] = useState(null);
+  const { profileUpdate } = useProfileUpdate();
+  const [collaboratorSelected, setCollaboratorSelected] = useState(null);
+  const [inputCollaboratorType, setInputCollaboratorType] = useState(0);
+
+
   useEffect(() => {
+    
     if (data && filteredData) {
       setNumPages(Math.ceil(filteredData.length / rowsPerPage));
     }
@@ -51,11 +63,67 @@ const Administrator = () => {
     setCollaboratorDetailModal(true)
   };
 
+  const handleUserDetailsUpdate = (e) => {
+    const dataCollaboratorParsed = JSON.parse(e.target.value)
+    console.log('ejecutando el click', dataCollaboratorParsed)
+    if(dataCollaboratorParsed.rol_nombre === "administrador"){
+      setInputCollaboratorType(1)
+    } else {
+      setInputCollaboratorType(2)
+    }
+
+    collaboratorSelector.current = dataCollaboratorParsed;
+    // Lógica para crear o actualizar paciente
+    setCollaboratorModalUpdate(true)
+  };
+
+  const handleUpdateProfile = async () => {
+    try {
+      const response = await profileUpdate({
+        given_name: updatedData?.given_name || "",
+        family_name: updatedData?.family_name || "",
+        birthdate: new Date() || updatedData?.birthdate || "",
+        rol: inputCollaboratorType,
+        email: collaboratorSelected.email
+
+      });
+
+      console.log("Datos enviados:", {
+        given_name: updatedData?.given_name || "",
+        family_name: updatedData?.family_name || "",
+        birthdate: updatedData?.birthdate || "",
+      });
+
+      if (response?.success) {
+        setCollaboratorSelected(updatedData);
+        setCollaboratorModalUpdate(false);
+      } else {
+        console.error("Error en la actualización");
+      }
+    } catch (error) {
+      console.error("Error al enviar datos:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (data && data[0]) {
+      setCollaboratorSelected(data[0]);
+      setUpdatedData(data[0]);
+    }
+  }, [data]);
+
+  if (!collaboratorSelected) return <div>Cargando...</div>;
+
+  const handleInputChange = (e: { target: { name: string; value: any } }) => {
+    const { name, value } = e.target;
+    setUpdatedData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSearchInTable = (value: string) => {
     setSearchTerm(value);
     setCurrentPage(1);
   };
-  const collaboratorSelected: CollaboratorType | any = collaboratorSelector.current;
+  // const collaboratorSelected: CollaboratorType | any = collaboratorSelector.current;
 
   return (
     <>
@@ -70,6 +138,7 @@ const Administrator = () => {
             { name: 'Foto', value: 'picture', type: 'img' },
             { name: 'NOMBRES', value: 'name', },
             { name: 'APELLIDOS', value: 'family_name' },
+            { name: 'Rol', value: 'rol_nombre' },
             { name: '', value: 'isChildren' },
           ]}
           rows={filteredData && filteredData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)}
@@ -92,6 +161,18 @@ const Administrator = () => {
               >
                 Cargar Boletas
               </Button>
+              <div className="ml-1" />
+              <button onClick={(e) => handleUserDetailsUpdate(e)} className="edit-role px-2">Actualizar</button>
+              <div className="ml-1" />
+
+              {/* <Button
+                className="edit-button"
+                onClick={(e) => updateCreatePatient(e)}
+                color="danger"
+                size="sm"
+              >
+                Eliminar
+              </Button> */}
             </div>
           }
           totalPages={numPages}
@@ -120,16 +201,18 @@ const Administrator = () => {
               <strong>Apellidos:</strong> {collaboratorSelected.family_name}
             </div>
             <div>
+              <strong>Cumpleaños:</strong> {formatDate(collaboratorSelected.birthdate)}
+            </div>
+            <div>
               <strong>Correo: </strong> {collaboratorSelected.email}
             </div>
             <div>
               <strong>Rol de usuario: </strong> {collaboratorSelected.rol_nombre}
             </div>
             <div>
-              <strong>Fecha de creacion: </strong> {currentDate(collaboratorSelected.updated_at)}
+              <strong>Fecha de creacion: </strong> {formatDate(collaboratorSelected.updated_at)}
             </div>
           </div>
-
         </ModalBody>
         <ModalFooter>
           <Button color="danger" onClick={() => setCollaboratorDetailModal(false)}>
@@ -137,6 +220,79 @@ const Administrator = () => {
           </Button>
         </ModalFooter>
       </Modal>
+      <Modal isOpen={collaboratorModalUpdate} toggle={() => setCollaboratorModalUpdate(false)}>
+        <ModalHeader toggle={() => setCollaboratorDetailModal(false)}>Actualizar Perfil</ModalHeader>
+        <ModalBody>
+          <div className="mt-4 space-y-2">
+            <div>
+              <strong>Nombres: </strong>
+              <Input
+                type="text"
+                name="given_name"
+                value={updatedData?.given_name || ""}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <strong>Apellidos: </strong>
+              <Input
+                type="text"
+                name="family_name"
+                value={updatedData?.family_name || ""}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <strong>Rol de usuario: </strong>
+            </div>
+            <div>
+              <FormGroup check>
+                <Input
+                  checked={inputCollaboratorType===1}
+                  name="1"
+                  type="radio"
+                  onChange={()=>setInputCollaboratorType(1)}
+                />
+                {' '}
+                <Label check>
+                  Administrador
+                </Label>
+              </FormGroup>
+              <FormGroup check>
+                <Input
+                checked={inputCollaboratorType===2}
+                  name="2"
+                  type="radio"
+                  onChange={()=>setInputCollaboratorType(1)}
+                />
+                {' '}
+                <Label check>
+                  Colaborador
+                </Label>
+              </FormGroup>
+            </div>
+            
+            <div>
+              <strong>Correo: </strong>
+              <div className="form-control">
+                {collaboratorSelected.email}
+              </div>
+            </div>
+            <div>
+              <strong>Fecha de creación: </strong> {formatDate(updatedData.updated_at)}
+            </div>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={handleUpdateProfile}>
+            Guardar cambios
+          </Button>
+          <Button color="danger" onClick={() => setCollaboratorModalUpdate(false)}>
+            Cancelar
+          </Button>
+        </ModalFooter>
+      </Modal>
+
     </>
   );
 };

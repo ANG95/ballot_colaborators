@@ -15,6 +15,7 @@ export const selectProfile = async () => {
     updated_at,
     rol_id,
     rol_nombre,
+    birthdate,
     descripcion
 FROM
     users
@@ -34,15 +35,17 @@ WHERE
 export const updateProfile = async (
   id: number,
   given_name: string,
-  family_name: string
+  family_name: string,
+  birthdate: string,
+  rol: number,
 ) => {
   try {
     const result = await query(
       `
       UPDATE users 
-      SET given_name = ?, family_name = ?
+      SET given_name = ?, family_name = ?, birthdate = ?, rol_id = ?
       WHERE id = ?`,
-      [given_name, family_name, id]
+      [given_name, family_name, birthdate, rol, id]
     );
 
     return result;
