@@ -25,7 +25,7 @@ const ProfilePage = () => {
     }
   }, [data]);
 
-  if (!collaboratorSelected) return <div>Cargando...</div>;
+  if (!collaboratorSelected) return <div className="card p-4 flex flex-col align-items-center justify-center">Cargando datos del perfil...</div>;
 
   const handleInputChange = (e: { target: { name: string; value: any } }) => {
     const { name, value } = e.target;
@@ -33,8 +33,7 @@ const ProfilePage = () => {
   };
 
   const handleUpdateProfile = async () => {
-    console.log(' sssssssssssssssss',collaboratorSelected);
-    
+
     try {
       const response = await updateProfile({
         given_name: updatedData?.given_name || "",
@@ -42,15 +41,9 @@ const ProfilePage = () => {
         birthdate: updatedData?.birthdate || "",
         rol: collaboratorSelected.rol_id,
         email: collaboratorSelected.email
-        
+
       });
-  
-      console.log("Datos enviados:", {
-        given_name: updatedData?.given_name || "",
-        family_name: updatedData?.family_name || "",
-        birthdate: updatedData?.birthdate || "",
-      });
-  
+
       if (response?.success) {
         setCollaboratorSelected(updatedData);
         setCollaboratorDetailModal(false);
@@ -63,8 +56,10 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="flex justify-center  h-full">
-      <div className="mt-4 space-y-2">
+    <div className="flex flex-col h-full">
+      <h1 className="text-2xl">Datos de mi perfil</h1>
+
+      <div className="card p-4 flex flex-col align-items-center justify-center mt-4 space-y-2">
         <div className="text-center mb-4">
           {collaboratorSelected?.picture ? (
             <img
@@ -79,29 +74,36 @@ const ProfilePage = () => {
         </div>
         <div className="mt-4 space-y-2">
           <div>
-            <strong>Nombres: </strong> {collaboratorSelected.given_name}
+            <strong>Nombres: </strong>  {collaboratorSelected.given_name}
           </div>
+          <hr />
           <div>
-            <strong>Apellidos: </strong> {collaboratorSelected.family_name}
+            <strong>Apellidos: </strong>
+            {collaboratorSelected.family_name}
           </div>
+          <hr />
           <div>
-            <strong>Cumpleaños: </strong> {formatDate(updatedData.birthdate)}
+            <strong>Fecha de nacimiento: </strong> {formatDate(updatedData.birthdate)}
           </div>
+          <hr />
           <div>
             <strong>Correo: </strong> {collaboratorSelected.email}
           </div>
+          <hr />
           <div>
             <strong>Fecha de creación: </strong> {formatDate(updatedData.updated_at)}
           </div>
+          <hr />
           <div>
             <strong>Correo: </strong> {collaboratorSelected.email}
           </div>
+          <hr />
           <div>
             <strong>Rol de usuario: </strong> {collaboratorSelected.rol_nombre}
           </div>
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-3">
           <Button color="primary" onClick={() => setCollaboratorDetailModal(true)}>
             Actualizar
           </Button>

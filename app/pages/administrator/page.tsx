@@ -51,21 +51,18 @@ const Administrator = () => {
 
   const updateCreatePatient = (e) => {
     const valuesParsed = JSON.parse(e.target.value)
-    console.log('ejecutando el click', valuesParsed)
   };
 
   const handleUserDetails = (e) => {
     const dataCollaboratorParsed = JSON.parse(e.target.value)
-    console.log('ejecutando el click', dataCollaboratorParsed)
 
     collaboratorSelector.current = dataCollaboratorParsed;
-    // Lógica para crear o actualizar paciente
     setCollaboratorDetailModal(true)
+    setCollaboratorSelected(dataCollaboratorParsed)
   };
 
   const handleUserDetailsUpdate = (e) => {
     const dataCollaboratorParsed = JSON.parse(e.target.value)
-    console.log('ejecutando el click', dataCollaboratorParsed)
     if(dataCollaboratorParsed.rol_nombre === "administrador"){
       setInputCollaboratorType(1)
     } else {
@@ -73,7 +70,6 @@ const Administrator = () => {
     }
 
     collaboratorSelector.current = dataCollaboratorParsed;
-    // Lógica para crear o actualizar paciente
     setCollaboratorModalUpdate(true)
   };
 
@@ -82,18 +78,11 @@ const Administrator = () => {
       const response = await profileUpdate({
         given_name: updatedData?.given_name || "",
         family_name: updatedData?.family_name || "",
-        birthdate: new Date() || updatedData?.birthdate || "",
+        birthdate: updatedData?.birthdate || "",
         rol: inputCollaboratorType,
         email: collaboratorSelected.email
 
       });
-
-      console.log("Datos enviados:", {
-        given_name: updatedData?.given_name || "",
-        family_name: updatedData?.family_name || "",
-        birthdate: updatedData?.birthdate || "",
-      });
-
       if (response?.success) {
         setCollaboratorSelected(updatedData);
         setCollaboratorModalUpdate(false);
@@ -124,7 +113,6 @@ const Administrator = () => {
     setSearchTerm(value);
     setCurrentPage(1);
   };
-  // const collaboratorSelected: CollaboratorType | any = collaboratorSelector.current;
 
   return (
     <>
@@ -134,7 +122,6 @@ const Administrator = () => {
         </div>
         <DataTable
           handleSearch={({ target: { value } }: any) => handleSearchInTable(value)}
-          addNewPress={() => { }}
           columns={[
             {name: 'N°'},
             { name: 'Foto', value: 'picture', type: 'img' },
@@ -157,24 +144,12 @@ const Administrator = () => {
               <div className="ml-1" />
               <Button
                 className="edit-button"
-                onClick={(e) => updateCreatePatient(e)}
+                onClick={(e) => handleUserDetailsUpdate(e)}
                 color="primary"
                 size="sm"
               >
-                Cargar Boletas
+                Actualizar
               </Button>
-              <div className="ml-1" />
-              <button onClick={(e) => handleUserDetailsUpdate(e)} className="edit-role px-2">Actualizar</button>
-              <div className="ml-1" />
-
-              {/* <Button
-                className="edit-button"
-                onClick={(e) => updateCreatePatient(e)}
-                color="danger"
-                size="sm"
-              >
-                Eliminar
-              </Button> */}
             </div>
           }
           totalPages={numPages}
@@ -203,7 +178,7 @@ const Administrator = () => {
               <strong>Apellidos:</strong> {collaboratorSelected.family_name}
             </div>
             <div>
-              <strong>Cumpleaños:</strong> {formatDate(collaboratorSelected.birthdate)}
+              <strong>Fecha de nacimiento:</strong> {formatDate(collaboratorSelected.birthdate)}
             </div>
             <div>
               <strong>Correo: </strong> {collaboratorSelected.email}

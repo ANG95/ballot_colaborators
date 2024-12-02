@@ -3,13 +3,13 @@ import apiClient from "@/lib/axios";
 import { removePrefix } from "@/utils/functions";
 import { toast } from "react-toastify";
 
-export const useListInvoices = () => {
+export const useListMyInvoices = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchInvoices = async () => {
     try {
-      const response = await apiClient.get("/api/invoice");
+      const response = await apiClient.get("/api/invoice?prefix=myInvoices");
 
       const newInvoices = response.data.map((invoice) => {
         const newInvoiceFormat = removePrefix(invoice.archivo_boleta)

@@ -25,7 +25,7 @@ export const selectCollaborators = async () => {
           rol_nombre = "colaborador"`);
     return result;
   } catch (error: any) {
-    throw new Error('Error creating user', error);
+    throw new Error('Error list collaboratos', error);
   }
 };
 export const selectUserByEmail = async (email: string) => {

@@ -29,16 +29,13 @@ export default function RootLayout({
 
     if (token) {
       setIsAuthenticated(true);
-      console.log('roooooooooolll idddddd', rol_id);
-      
-      // Redirigir según el rol_id
       if (rol_id === 1) {
         router.push("/pages/administrator");
       } else if (rol_id === 2) {
         router.push("/pages/profile");
       } else {
-        console.error("Rol no reconocido.");
-      }  // Redirige al login si no hay token
+        router.push("/");
+      } 
     }
   }, [router]);
 

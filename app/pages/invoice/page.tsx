@@ -11,9 +11,13 @@ import { CollaboratorType } from "@/types/collaborator";
 import { useAddInvoices } from "./hooks/useAddInvoices";
 import { ImPrinter } from "react-icons/im";
 import { FaDownload } from "react-icons/fa";
+import PdfViewerModal from "./components/pdfViewerModal/pdfViewerModal";
+import useZipDownload from "./hooks/useZipDownload";
 
 const Invoices = () => {
   const { data, loading, fetchInvoices } = useListInvoices();
+  const { downloadAsZip, isDownloading } = useZipDownload();
+
   const { searchResult, handleCollaboratorSearch } = useListCollaborators();
   const { insertInvoiceLoading, handleInvoiceInsert } = useAddInvoices();
 
@@ -25,7 +29,9 @@ const Invoices = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState(data || []);
   const [collaboratorSelected, setCollaboratorSelected] = useState<CollaboratorType | undefined>(undefined);
+  const [pdfViewModal, setPdfViewModal] = useState(false)
   const [periodInput, setPeriodInput] = useState(currentDate("yyyy-MM-dd"))
+  const [invoiceSelected, setInvoiceSelected] = useState<any>()
 
   useEffect(() => {
     if (data && filteredData) {
@@ -49,10 +55,9 @@ const Invoices = () => {
 
   const handleUserDetails = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      console.log('e.value', e.target)
       const dataCollaboratorParsed = JSON.parse(e.target.value);
-      console.log('ejecutando el click', dataCollaboratorParsed);
-      setCollaboratorDetailModal(true);
+      setPdfViewModal(true);
+      setInvoiceSelected(dataCollaboratorParsed)
     } catch (error) {
       console.error('Error al parsear JSON', error);
     }
@@ -127,7 +132,10 @@ const Invoices = () => {
               <div className="ml-1" />
               <Button
                 className="edit-button"
-                onClick={(e: any) => handleUserDetails(e)}
+                onClick={({ target: { value } }: any) => {
+                  const invoiceValues: any = JSON.parse(value)
+                  downloadAsZip(`/boletas/${invoiceValues?.archivo_boleta}`, `boleta_del_periodo_${invoiceValues.periodo}-${invoiceValues.given_name}`)
+                }}
                 color="secondary"
                 size="sm"
               >
@@ -217,6 +225,13 @@ const Invoices = () => {
           </Button>
         </ModalFooter>
       </Modal>
+
+      <PdfViewerModal
+        pdfUrl={invoiceSelected && `/boletas/${invoiceSelected?.archivo_boleta}` || ''}
+        modalTitle={'Nombre del la boleta: ' + invoiceSelected?.fileNameSplit || ''}
+        isOpen={pdfViewModal}
+        onClose={() => setPdfViewModal(false)}
+      />
     </>
   );
 };
