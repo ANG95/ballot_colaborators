@@ -3,15 +3,29 @@ import path from "path";
 import fs from "fs";
 import { addInvoice, listInvoices } from "./invoiceModel";
 import { currentDate } from "@/utils/functions";
-
+import jwt_decode from "jwt-decode";
+import { GoogleUser } from "@/types/user";
 
 export async function GET(req: Request) {
   const authHeader = req.headers.get("Authorization");
+
+  const url = new URL(req.url);
+  const isPrefixListMyInvoices = url.searchParams.get("prefix");
+
   if (!authHeader) {
     return NextResponse.json({ error: "Token no proporcionado" }, { status: 400 });
   }
   try {
-    const invoices: any = await listInvoices();
+
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt_decode<GoogleUser>(token);
+    const { email } = decoded;
+
+    let queryConcat: string= '';
+    if (isPrefixListMyInvoices) {
+      queryConcat = ` WHERE email = '${email}'` 
+    }
+    const invoices: any = await listInvoices(queryConcat);
     return NextResponse.json(invoices, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ error: "Error en el servidor"+ error }, { status: 500 });

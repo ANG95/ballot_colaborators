@@ -25,8 +25,6 @@ const Login = () => {
         picture?: string;
       }>(token);
 
-      console.log("Token decodificado:", decodedToken);
-
       const { email, name, given_name, family_name, picture} = decodedToken;
 
       dispatch(login(token));
@@ -43,11 +41,6 @@ const Login = () => {
         });
 
         if (res.data) {
-          console.log("Redirigiendo a:", res.data);
-          // setTimeout(() => {
-          //   window.location.href = "/pages/administrator";
-          // }, 1000);
-          // Asegúrate de que el rol_id esté presente
           if (res.data.rol_id) {
 
             window.localStorage.setItem("rol_id", res.data.rol_id.toString());
@@ -55,7 +48,6 @@ const Login = () => {
             window.localStorage.setItem("email", res.data.email.toString());
             window.localStorage.setItem("userName", res.data.given_name.toString());
             
-            // Verificar el rol antes de redirigir
             if (res.data.rol_nombre === 'administrador') {
               window.location.href = "/pages/administrator";
             } else if (res.data.rol_nombre === 'colaborador') {
@@ -78,7 +70,7 @@ const Login = () => {
   };
 
   const handleGoogleError = () => {
-    console.error("Google Login Failed");
+    toast.error("Google Login Failed");
   };
 
 
@@ -88,8 +80,8 @@ const Login = () => {
         <Image
           src="/images/login.png"
           alt="Login Image"
-          width={450}   // Define el ancho de la imagen
-          height={450}  // Define la altura de la imagen
+          width={450}  
+          height={450}
         />
       </div>
       <div>

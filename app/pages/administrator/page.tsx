@@ -78,7 +78,7 @@ const Administrator = () => {
       const response = await profileUpdate({
         given_name: updatedData?.given_name || "",
         family_name: updatedData?.family_name || "",
-        birthdate: new Date() || updatedData?.birthdate || "",
+        birthdate: updatedData?.birthdate || "",
         rol: inputCollaboratorType,
         email: collaboratorSelected.email
 
@@ -122,7 +122,6 @@ const Administrator = () => {
         </div>
         <DataTable
           handleSearch={({ target: { value } }: any) => handleSearchInTable(value)}
-          addNewPress={() => { }}
           columns={[
             {name: 'N°'},
             { name: 'Foto', value: 'picture', type: 'img' },
@@ -145,24 +144,12 @@ const Administrator = () => {
               <div className="ml-1" />
               <Button
                 className="edit-button"
-                onClick={(e) => updateCreatePatient(e)}
+                onClick={(e) => handleUserDetailsUpdate(e)}
                 color="primary"
                 size="sm"
               >
-                Cargar Boletas
+                Actualizar
               </Button>
-              <div className="ml-1" />
-              <button onClick={(e) => handleUserDetailsUpdate(e)} className="edit-role px-2">Actualizar</button>
-              <div className="ml-1" />
-
-              {/* <Button
-                className="edit-button"
-                onClick={(e) => updateCreatePatient(e)}
-                color="danger"
-                size="sm"
-              >
-                Eliminar
-              </Button> */}
             </div>
           }
           totalPages={numPages}

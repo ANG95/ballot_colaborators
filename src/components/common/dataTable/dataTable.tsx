@@ -9,7 +9,7 @@ import './dataTable.css'
 
 interface DataTableProps {
     handleSearch: (e: string | any) => void,
-    addNewPress: () => void,
+    addNewPress?: () => void,
     columns: any[],
     rows: any[],
     totalPages: number,
@@ -27,14 +27,19 @@ function DataTable({ handleSearch, addNewPress, columns,
                 <InputSearch
                     onChangeInput={handleSearch}
                 />
-                <button
-                    className='new-button p-1 ml-3'
-                    onClick={addNewPress}
-                >
-                    <MdAdd size={25} color='#FFF' />
-                </button>
+                {
+                    addNewPress && (
+                        <button
+                            className='new-button p-1 ml-3'
+                            onClick={addNewPress}
+                        >
+                            <MdAdd size={25} color='#FFF' />
+                        </button>
+                    )
+                }
+
             </div>
-            <Card className="m-2">
+            <Card className="mt-2">
                 <div className="table-responsive">
                     <table className="table table-sm table-striped table-hover">
                         <thead>
@@ -48,7 +53,7 @@ function DataTable({ handleSearch, addNewPress, columns,
                             {
                                 loading && loading ?
                                     <tr>
-                                        <td className='text-center' colSpan={columns.length -1}>Cargando datos, por favor espere...</td>
+                                        <td className='text-center' colSpan={columns.length - 1}>Cargando datos, por favor espere...</td>
                                     </tr> :
                                     RenderTbody({ rows, columns, rightComponents })
                             }

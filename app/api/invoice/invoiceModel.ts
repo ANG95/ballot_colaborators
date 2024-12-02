@@ -21,7 +21,7 @@ export const addInvoice = async ({ userId, period, filepath, uploadDate }: addIn
 };
 
 
-export const listInvoices = async () => {
+export const listInvoices = async (isExitsEmailQuery) => {
   try {
     const querySQL = `
       SELECT 
@@ -43,7 +43,7 @@ export const listInvoices = async () => {
               LEFT JOIN
           users ON boletas.usuario_id = users.id
               LEFT JOIN
-          roles ON roles.id = users.rol_id ORDER BY id DESC`;
+          roles ON roles.id = users.rol_id ${isExitsEmailQuery} ORDER BY id DESC`;
     const result = await query(querySQL);
     return result;
   } catch (error: any) {
