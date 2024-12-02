@@ -203,7 +203,7 @@ const Administrator = () => {
               <strong>Apellidos:</strong> {collaboratorSelected.family_name}
             </div>
             <div>
-              <strong>Cumpleaños:</strong> {formatDate(collaboratorSelected.birthdate)}
+              <strong>Fecha de nacimiento:</strong> {formatDate(collaboratorSelected.birthdate)}
             </div>
             <div>
               <strong>Correo: </strong> {collaboratorSelected.email}

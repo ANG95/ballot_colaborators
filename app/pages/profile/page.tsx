@@ -85,7 +85,7 @@ const ProfilePage = () => {
             <strong>Apellidos: </strong> {collaboratorSelected.family_name}
           </div>
           <div>
-            <strong>Cumpleaños: </strong> {formatDate(updatedData.birthdate)}
+            <strong>Fecha de nacimiento: </strong> {formatDate(updatedData.birthdate)}
           </div>
           <div>
             <strong>Correo: </strong> {collaboratorSelected.email}
@@ -131,7 +131,7 @@ const ProfilePage = () => {
               />
             </div>
             <div>
-              <strong>Cumpleaños: </strong>
+              <strong>Fecha de nacimiento: </strong>
             </div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
