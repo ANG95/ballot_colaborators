@@ -7,6 +7,7 @@ import { CredentialResponse } from "@react-oauth/google";
 import jwt_decode from 'jwt-decode';
 import apiClient from "@/lib/axios";
 import Image from 'next/image';
+import { toast } from "react-toastify";
 
 const Login = () => {
 
@@ -14,16 +15,15 @@ const Login = () => {
 
   const handleGoogleSuccess = async (response: CredentialResponse) => {
     if (response.credential) {
-      console.log("Token recibido de Google:", response.credential);
 
-      const token = response.credential; // El token de Google que se obtiene al hacer login
+      const token = response.credential; 
       const decodedToken = jwt_decode<{
         email: string;
         name: string;
         given_name?: string;
         family_name?: string;
         picture?: string;
-      }>(token);  // Decodificamos el token para obtener la información del usuario
+      }>(token);
 
       console.log("Token decodificado:", decodedToken);
 
@@ -33,17 +33,14 @@ const Login = () => {
       window.localStorage.setItem("token", token);
 
       try {
-        // Aquí estamos enviando el token y la información del usuario al backend
         const res = await apiClient.post("/api/login", {
-          token, // El token de Google se envía al backend para verificar o crear el usuario
+          token,
           email,
           name,
           given_name,
           family_name,
           picture,
         });
-
-        console.log("Respuesta del backendasssssssssssssss:", res.data);
 
         if (res.data) {
           console.log("Redirigiendo a:", res.data);
@@ -52,10 +49,12 @@ const Login = () => {
           // }, 1000);
           // Asegúrate de que el rol_id esté presente
           if (res.data.rol_id) {
-            console.log("Rol ID recibidoooooooooo:", res.data);  // Verifica el valor del rol_id
 
-            window.localStorage.setItem("rol_id", res.data.rol_id.toString()); // Guardamos el rol_id en localStorage
-
+            window.localStorage.setItem("rol_id", res.data.rol_id.toString());
+            window.localStorage.setItem("rolName", res.data.rol_nombre.toString());
+            window.localStorage.setItem("email", res.data.email.toString());
+            window.localStorage.setItem("userName", res.data.given_name.toString());
+            
             // Verificar el rol antes de redirigir
             if (res.data.rol_nombre === 'administrador') {
               window.location.href = "/pages/administrator";
@@ -63,17 +62,18 @@ const Login = () => {
               window.location.href = "/pages/profile";
             } else {
               console.error("Error: Rol no válido");
+              toast.error("Ocurrió un error al intentar iniciar sesión")
             }
           }
         }
         else {
-          console.error("Error: No se recibió una URL de redirección.");
+          toast.error("Error: No se recibió una URL de redirección.");
         }
       } catch (error) {
         console.error("Error al comunicar con el backend:", error);
       }
     } else {
-      console.error("Google Login Failed: No credential received");
+      toast.error("Google Login Failed: No credential received");
     }
   };
 

@@ -52,3 +52,6 @@ button.edit-role {
 button.edit-role:hover {
   background-color: #FFC107;
 }
+a {
+  text-decoration: none!important;
+}
