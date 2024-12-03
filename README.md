@@ -26,6 +26,13 @@ El colaborador tiene acceso a las siguientes opciones:
 El método de inicio de sesión está integrado con **Google**, **Microsoft** y **GitHub**. Para que funcione correctamente, las credenciales de estas plataformas deben configurarse en el archivo `.env`.  
 
 ---
+### **Autenticación**  
+
+Diagrama de flujo sobre el funcionamiento del login
+
+![Diagrama](images/png/diagrama_de_flujo.png)
+
+---
 
 ## Configuración del Proyecto  
 
