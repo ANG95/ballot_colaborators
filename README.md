@@ -26,9 +26,7 @@ El colaborador tiene acceso a las siguientes opciones:
 El método de inicio de sesión está integrado con **Google**, **Microsoft** y **GitHub**. Para que funcione correctamente, las credenciales de estas plataformas deben configurarse en el archivo `.env`.  
 
 ---
-### **Autenticación**  
-
-Diagrama de flujo sobre el funcionamiento del login
+### **Diagrama de flujo sobre el funcionamiento del login**  
 
 ![Diagrama](./public/images/png/diagrama_de_flujo.png)  
 
@@ -37,13 +35,18 @@ Diagrama de flujo sobre el funcionamiento del login
 ## Configuración del Proyecto  
 
 Asegúrate de tener las siguientes variables de entorno configuradas en el archivo `.env`:  
-- `DATABASE_HOST`: Tu host de MySQL.  
-- `DATABASE_USER`: Usuario de la base de datos.  
-- `DATABASE_PASSWORD`: Contraseña de la base de datos.  
-- `DATABASE_NAME`: Nombre de la base de datos.  
-- `PORT`: Puerto de la aplicación (por defecto, 3306).  
+- `NEXT_PUBLIC_DATABASE_HOST`= Tu host de MySQL.  
+- `NEXT_PUBLIC_DATABASE_USER`= Usuario de la base de datos.  
+- `NEXT_PUBLIC_DATABASE_PASSWORD`= Contraseña de la base de datos.  
+- `NEXT_PUBLIC_DATABASE_NAME`= Nombre de la base de datos.  
+- `PORT`= Puerto de la aplicación (por defecto, 3306).  
 - Credenciales para los métodos de login (**Google**, **Microsoft**, **GitHub**).  
-
+- `NEXT_PUBLIC_GOOGLE_CLIENT_ID`=tu_google_client_id
+- `NEXT_PUBLIC_GOOGLE_CLIENT_SECRET`=tu_google_client_secret
+- `NEXT_PUBLIC_MICROSOFT_CLIENT_ID`=tu_microsoft_client_id
+- `NEXT_PUBLIC_MICROSOFT_CLIENT_SECRET`=tu_microsoft_client_secret
+- `NEXT_PUBLIC_GITHUB_CLIENT_ID`=tu_github_client_id
+- `NEXT_PUBLIC_GITHUB_CLIENT_SECRET`=tu_github_client_secret
 ---
 
 ## Iniciar el Proyecto  
