@@ -30,7 +30,7 @@ El método de inicio de sesión está integrado con **Google**, **Microsoft** y 
 
 Diagrama de flujo sobre el funcionamiento del login
 
-![Diagrama](./images/png/diagrama_de_flujo.png)  
+![Diagrama](./public/images/png/diagrama_de_flujo.png)  
 
 ---
 
