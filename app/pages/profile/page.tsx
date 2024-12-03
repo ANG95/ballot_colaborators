@@ -133,7 +133,7 @@ const ProfilePage = () => {
               />
             </div>
             <div>
-              <strong>Cumpleaños: </strong>
+              <strong>Fecha de nacimiento: </strong>
             </div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
