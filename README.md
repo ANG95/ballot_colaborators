@@ -41,12 +41,12 @@ Asegúrate de tener las siguientes variables de entorno configuradas en el archi
 - `NEXT_PUBLIC_DATABASE_NAME`= Nombre de la base de datos.  
 - `PORT`= Puerto de la aplicación (por defecto, 3306).  
 - Credenciales para los métodos de login (**Google**, **Microsoft**, **GitHub**).  
-- `NEXT_PUBLIC_GOOGLE_CLIENT_ID`=tu_google_client_id
-- `NEXT_PUBLIC_GOOGLE_CLIENT_SECRET`=tu_google_client_secret
-- `NEXT_PUBLIC_MICROSOFT_CLIENT_ID`=tu_microsoft_client_id
-- `NEXT_PUBLIC_MICROSOFT_CLIENT_SECRET`=tu_microsoft_client_secret
-- `NEXT_PUBLIC_GITHUB_CLIENT_ID`=tu_github_client_id
-- `NEXT_PUBLIC_GITHUB_CLIENT_SECRET`=tu_github_client_secret
+- `NEXT_PUBLIC_GOOGLE_CLIENT_ID`=tu_google_client_id  
+- `NEXT_PUBLIC_GOOGLE_CLIENT_SECRET`=tu_google_client_secret   
+- `NEXT_PUBLIC_MICROSOFT_CLIENT_ID`=tu_microsoft_client_id  
+- `NEXT_PUBLIC_MICROSOFT_CLIENT_SECRET`=tu_microsoft_client_secret   
+- `NEXT_PUBLIC_GITHUB_CLIENT_ID`=tu_github_client_id  
+- `NEXT_PUBLIC_GITHUB_CLIENT_SECRET`=tu_github_client_secret   
 ---
 
 ## Iniciar el Proyecto  
