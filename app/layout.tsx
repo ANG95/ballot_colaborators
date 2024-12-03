@@ -13,6 +13,18 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { PublicClientApplication } from '@azure/msal-browser';
+import { MsalProvider } from '@azure/msal-react';
+
+const msalConfig = {
+  auth: {
+    clientId: process.env.NEXT_PUBLIC_MICROSOFT_CLIENT_ID,
+    authority: "https://login.microsoftonline.com/common",
+  },
+};
+
+const msalInstance = new PublicClientApplication(msalConfig);
+
 
 export default function RootLayout({
   children,
@@ -35,31 +47,33 @@ export default function RootLayout({
         router.push("/pages/profile");
       } else {
         router.push("/");
-      } 
+      }
     }
   }, [router]);
 
   return (
     <html lang="en">
-      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
-        <body>
-        <ToastContainer />
-          <Provider store={store}>
-            <FontLoader />
-            {isAuthenticated ? (
-              <div className="flex h-screen">
-                <Sidebar />
-                <div className="flex flex-col flex-1">
-                  <Header />
-                  <div className="flex-1 p-3 bg-gray-100">{children}</div>
+      <body>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
+          <MsalProvider instance={msalInstance}>
+            <ToastContainer />
+            <Provider store={store}>
+              <FontLoader />
+              {isAuthenticated ? (
+                <div className="flex h-screen">
+                  <Sidebar />
+                  <div className="flex flex-col flex-1">
+                    <Header />
+                    <div className="flex-1 p-3 bg-gray-100">{children}</div>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <Login />
-            )}
-          </Provider>
-        </body>
-      </GoogleOAuthProvider>
+              ) : (
+                <Login />
+              )}
+            </Provider>
+          </MsalProvider>
+        </GoogleOAuthProvider>
+      </body>
     </html>
   );
 }
