@@ -1,10 +1,10 @@
 import mysql from 'mysql2';
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'medical_sur', 
-  database: 'db_boletas',
+  host: process.env.NEXT_PUBLIC_DATABASE_HOST,
+  user: process.env.NEXT_PUBLIC_DATABASE_USER,
+  password: process.env.NEXT_PUBLIC_DATABASE_PASSWORD,
+  database: process.env.NEXT_PUBLIC_DATABASE_NAME,
   waitForConnections: true,
 });
 

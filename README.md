@@ -1,35 +1,49 @@
+# Ballot Colaborators  
 
-## Getting Started
+Este proyecto está diseñado para la gestión de boletas y cuenta con dos tipos de usuarios: **Administrador** y **Colaborador**. Está desarrollado en **Next.js 15** y utiliza **MySQL** como base de datos. Cada usuario tiene un rol con diferentes funcionalidades:  
 
-First, run the development server:
+### **Administrador**  
+El administrador dispone de los siguientes menús:  
+1. **Colaboradores**:  
+   - Editar los datos de los colaboradores.  
+   - Subir boletas y visualizar los detalles de los colaboradores.  
+   - Cambiar el rol de los usuarios.  
+
+2. **Boletas**:  
+   - Visualizar todas las boletas existentes.  
+   - Aplicar filtros y paginar la lista de boletas.  
+
+### **Colaborador**  
+El colaborador tiene acceso a las siguientes opciones:  
+1. **Mi Perfil**:  
+   - Actualizar la información personal del perfil.  
+
+2. **Mis Boletas**:  
+   - Ver un listado general de sus boletas.  
+   - Descargar, visualizar e imprimir sus boletas.  
+
+### **Autenticación**  
+El método de inicio de sesión está integrado con **Google**, **Microsoft** y **GitHub**. Para que funcione correctamente, las credenciales de estas plataformas deben configurarse en el archivo `.env`.  
+
+---
+
+## Configuración del Proyecto  
+
+Asegúrate de tener las siguientes variables de entorno configuradas en el archivo `.env`:  
+- `NEXT_PUBLIC_DATABASE_HOST`: Tu host de MySQL.  
+- `NEXT_PUBLIC_DATABASE_USER`: Usuario de la base de datos.  
+- `NEXT_PUBLIC_DATABASE_PASSWORD`: Contraseña de la base de datos.  
+- `NEXT_PUBLIC_DATABASE_NAME`: Nombre de la base de datos.  
+- `NEXT_PUBLIC_PORT`: Puerto de la aplicación (por defecto, 3000).  
+- Credenciales para los métodos de login (**Google**, **Microsoft**, **GitHub**).  
+
+---
+
+## Iniciar el Proyecto  
+
+Primero, instala las dependencias y ejecuta los siguientes comandos:  
 
 ```bash
-yarn 
-
+yarn
 yarn build
-
 yarn dev
-
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# ballot_colaborators
