@@ -3,12 +3,7 @@ import DataTable from "@/components/common/dataTable/dataTable";
 import { useState, useEffect, useRef } from "react";
 import { useGetUsersRol, useProfileUpdate } from "./hooks/useGetUsersRol";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, FormGroup, Label } from 'reactstrap';
-// import { CollaboratorType } from "@/types/collaborator";
 import { formatDate } from "@/utils/functions";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-// import dayjs from "dayjs";
 
 const Administrator = () => {
   const { data, fetchCollaborator } = useGetUsersRol();
@@ -48,11 +43,7 @@ const Administrator = () => {
   const ReqDataAPI = (page: number) => {
     setCurrentPage(page);
   };
-
-  const updateCreatePatient = (e) => {
-    const valuesParsed = JSON.parse(e.target.value)
-  };
-
+  
   const handleUserDetails = (e) => {
     const dataCollaboratorParsed = JSON.parse(e.target.value)
 

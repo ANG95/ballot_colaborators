@@ -16,7 +16,7 @@ import useZipDownload from "./hooks/useZipDownload";
 
 const Invoices = () => {
   const { data, loading, fetchInvoices } = useListInvoices();
-  const { downloadAsZip, isDownloading } = useZipDownload();
+  const { downloadAsZip } = useZipDownload();
 
   const { searchResult, handleCollaboratorSearch } = useListCollaborators();
   const { insertInvoiceLoading, handleInvoiceInsert } = useAddInvoices();
